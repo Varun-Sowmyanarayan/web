@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger this action on push to the 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger this action when a pull request is made to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2  # Checks out the repository code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Set Node.js version to 14 (change according to your needs)
+
+      - name: Install dependencies
+        run: npm install  # Install the dependencies using npm
+
+      - name: Run tests
+        run: npm test  # Run the tests using npm
+
+      - name: Build project
+        run: npm run build  # Run the build process (if applicable)
+
+      - name: Upload build artifacts (optional)
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build  # Adjust this path to where your build artifacts are located
